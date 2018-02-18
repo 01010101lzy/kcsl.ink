@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KerbCat Short Link</title>
+</head>
+
+<body>
+  <script>
+    // url -> kcsl.ink/#pXXXXX -or- kcsl.ink/#dXXXXX
+    window.onload = function () {
+      var dev = false;
+      var loc = location.hash.slice(1);
+      var identifier = loc.slice(0,1);
+      var tgt = loc.slice(1);
+
+      var url;
+      switch (identifier){
+        case 'p':
+          url = `https://kerbcat.com/post/${tgt}`
+          break;
+        case 'd':
+          url = `https://dreve.kerbcat.com/s/${tgt}`;
+          break;
+        default:
+          url = `about.html`;
+          break;
+      }
+
+      if (!dev) {
+        window.location = url;
+      }
+    }
+  </script>
+</body>
+
+</html>
