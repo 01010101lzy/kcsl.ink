@@ -1,14 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>i | KerbCat Short Link/title>
+  <title>i | KerbCat Short Link</title>
+  <style>
+    *:focus {
+      outline: none;
+    }
+
+    html,
+    body,
+    .container {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      flex-flow: column;
+      text-align: center;
+      justify-content: center;
+      -ms-align-items: center;
+      align-items: center;
+      font-weight: lighter;
+      margin: 0;
+      font-size: 24px;
+      transition: font-size 0.2s ease-in-out;
+    }
+
+    body,
+    input {
+      font-family: "Segoe UI", "Heveltica Neue", "Calibri", "Noto Sans",
+      "Source Han Sans", "Microsoft Yahei UI", "MS UI Gothic", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    a {
+      color: #EC407A;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.2s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    a:hover,
+    a:focus {
+      color: #880e4f;
+    }
+
+    .kcsll {
+      width: 640px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .desc {
+      font-size: 16px;
+      font-weight: bolder;
+    }
+
+    .kcurl {
+      width: 360px;
+      margin: 16px;
+      padding: 4px;
+      font-size: 20px;
+      border: 0px solid;
+      border-bottom: 2px solid #eee;
+      transition: all 0.2s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .kcurl:focus {
+      border-bottom-color: #EC407A;
+    }
+
+    .kcurl.fail {
+      border-bottom-color: #ff2626;
+      color: #a72525;
+    }
+
+    @media screen and (max-width: 640px) {
+      body {
+        font-size: 16px;
+      }
+      .kcsll {
+        width: 320px;
+      }
+      .kcurl {
+        width: 85%;
+        margin: 8px;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <span style="text-align: center; margin: 5rem;">
-        <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
-    </span>
+  <img class="kcsll" src="kcslink.svg" alt="KerbCat ShortLink Logo">
+  <div>
+    <p>
+      这是一个给
+      <a href="http://www.kerbcat.com">KerbCat 坎喵</a> 做短网址的网站
+    </p>
+    <p class="desc">
+      本站支持 KerbCat 主站和 KC Dreve 的 (直观) 短网址制作。
+    </p>
+  </div>
+  <div>
+    <input class="kcurl" type="url" name="kcurl" id="kcurl" placeholder="粘贴 KerbCat 网址" onkeydown="kcurlOnKeyDown();" onfocus="dontfail();">
+  </div>
+  <div>
+    <a onclick="getShortLnk();">获取短网址</a>
+  </div>
+<div class="desc">
+    <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+</div>
+  <script>
+    var httpheader = /(http:\/\/|https:\/\/)?/i
+    var traillingslash = /[\/\s]*$/i
+    var kcregex = /www\.kerbcat\.com\/.*\/(?=\d+)/i;
+    var dreveregex = /dreve\.kerbcat\.com\/s\//i;
+
+    function kcurlOnKeyDown() {
+      // TODO: 回车触发转换
+    }
+
+    function getShortLnk() {
+      url = kcurl.value.replace(httpheader, '').replace(traillingslash, '');
+      var result = null;
+      type = url.match(dreveregex) ? 2 : (url.match(kcregex) ? 1 : -1)
+      switch (type) {
+        case 1:
+          result = 'http://kcsl.ink/#p' + url.replace(kcregex, '');
+          break;
+        case 2:
+          result = 'http://kcsl.ink/#d' + url.replace(dreveregex, '');
+          break;
+      }
+      if (result) {
+        kcurl.value = result;
+        kcurl.focus();
+        kcurl.select();
+        // window.clipboardData.setData("Text", result);
+      } else {
+        kcurl.classList.add('fail')
+      }
+    }
+
+    function dontfail() {
+      try { kcurl.classList.remove('fail') }
+      catch (e) { }
+    }
+    
+  </script>
 </body>
+
 </html>
