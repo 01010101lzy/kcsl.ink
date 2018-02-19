@@ -27,7 +27,7 @@
       transition: font-size 0.2s ease-in-out;
     }
 
-    body{
+    body {
       font-family: "Segoe UI", "Heveltica Neue", "Calibri", "Noto Sans",
       "Source Han Sans", "Microsoft Yahei UI", "MS UI Gothic", sans-serif,
       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -37,18 +37,21 @@
 
 <body>
   <span style="text-align: center; margin: 5rem;">
-      <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+    <p>Redirecting...</p>
+    <p>Hosted by
+      <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+    </p>
   </span>
   <script>
     // url -> kcsl.ink/#pXXXXX -or- kcsl.ink/#dXXXXX
     window.onload = function () {
       var dev = false;
       var loc = location.hash.slice(1);
-      var identifier = loc.slice(0,1);
+      var identifier = loc.slice(0, 1);
       var tgt = loc.slice(1);
 
       var url;
-      switch (identifier){
+      switch (identifier) {
         case 'p':
           url = `https://www.kerbcat.com/post/${tgt}`
           break;

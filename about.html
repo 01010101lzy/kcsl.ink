@@ -50,7 +50,7 @@
       color: #880e4f;
     }
 
-    hr{
+    hr {
       width: 240px;
       margin: 1rem;
       border: .5px #eee solid;
@@ -93,11 +93,11 @@
     }
 
     .inv {
-      display: none;
+      opacity: 0;
     }
 
     .getlnk {
-      margin: 12px 4px 8px 4px;
+      margin: 4px 4px 8px 4px;
     }
 
     @media screen and (max-width: 640px) {
@@ -107,7 +107,7 @@
       .kcsll {
         width: 320px;
       }
-      .desc{
+      .desc {
         font-size: 12px;
       }
       .kcurl {
@@ -132,7 +132,8 @@
   </div>
   <hr>
   <div>
-    <input class="kcurl" type="url" name="kcurl" id="kcurl" placeholder="粘贴 KerbCat 网址" onkeydown="kcurlOnKeyDown();" onfocus="dontfail();">
+    <input class="kcurl" type="url" name="kcurl" id="kcurl" placeholder="粘贴 KerbCat 网址" onkeypress="dontfail(); if(event.keyCode == 13 || event.which == 13) getShortLnk();"
+      onfocus="dontfail();">
   </div>
   <div id='failind' class="failind inv">输入的网址格式有误</div>
   <div class="getlnk">
@@ -144,39 +145,66 @@
     </p>
 
   </div>
+  <script src="getshortlink.js"></script>
   <script>
     var httpheader = /(http:\/\/|https:\/\/)?/i
     var traillingslash = /[\/\s]*$/i
     var kcregex = /www\.kerbcat\.com\/.*\/(?=\d+)/i;
     var dreveregex = /dreve\.kerbcat\.com\/s\//i;
-    var kcsl = 'http://kcsl.ink/'
+    var kcsl = 'http://ksc.moe/'
 
-    function kcurlOnKeyDown() {
-      // TODO: 回车触发转换
-    }
+    // function kcurlOnKeyDown(e) {
+    //   // TODO: 回车触发转换
+    //   var keycode;
+    //   if (window.event) // IE
+    //   {
+    //     keynum = e.keyCode
+    //   }
+    //   else if (e.which) // Netscape/Firefox/Opera
+    //   {
+    //     keynum = e.which
+    //   }
+    //   if(keycode == 13) getShortLnk();
+    // }
 
     function getShortLnk() {
-      url = kcurl.value.replace(httpheader, '').replace(traillingslash, '');
+      dontfail();
       var result = null;
-      type = url.match(dreveregex) ? 2 : (url.match(kcregex) ? 1 : -1)
-      switch (type) {
-        case 1:
-          result = '#p' + url.replace(kcregex, '');
-          break;
-        case 2:
-          result = '#d' + url.replace(dreveregex, '');
-          break;
-      }
-      if (result) {
-        result = kcsl + result;
+      try {
+        result = kcsl(kcurl.value);
+      } catch(e){
+        fail();
+      } finally{
         kcurl.value = result;
         kcurl.focus();
         kcurl.select();
-        // window.clipboardData.setData("Text", result);
-      } else {
-        kcurl.classList.add('fail')
-        failind.classList.remove('inv');
       }
+      // url = kcurl.value.replace(httpheader, '').replace(traillingslash, '');
+      // var result = null;
+      // type = url.match(dreveregex) ? 2 : (url.match(kcregex) ? 1 : -1)
+      // switch (type) {
+      //   case 1:
+      //     result = '#p' + url.replace(kcregex, '');
+      //     break;
+      //   case 2:
+      //     result = '#d' + url.replace(dreveregex, '');
+      //     break;
+      // }
+      // if (result) {
+      //   result = kcsl + result;
+      //   kcurl.value = result;
+      //   kcurl.focus();
+      //   kcurl.select();
+      //   // window.clipboardData.setData("Text", result);
+      // } else {
+      //   kcurl.classList.add('fail')
+      //   failind.classList.remove('inv');
+      // }
+    }
+
+    function fail() {
+      kcurl.classList.add('fail')
+      failind.classList.remove('inv');
     }
 
     function dontfail() {
