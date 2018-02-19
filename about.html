@@ -50,6 +50,12 @@
       color: #880e4f;
     }
 
+    hr{
+      width: 240px;
+      margin: 1rem;
+      border: .5px #eee solid;
+    }
+
     .kcsll {
       width: 640px;
       transition: all 0.2s ease-in-out;
@@ -62,11 +68,11 @@
 
     .kcurl {
       width: 360px;
-      margin: 16px;
+      margin: 8px 16px 4px 16px;
       padding: 4px;
       font-size: 20px;
       border: 0px solid;
-      border-bottom: 2px solid #eee;
+      border-bottom: 2px solid #ccc;
       transition: all 0.2s cubic-bezier(0.77, 0, 0.175, 1);
     }
 
@@ -79,6 +85,21 @@
       color: #a72525;
     }
 
+    .failind {
+      color: #a72525;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 4px;
+    }
+
+    .inv {
+      display: none;
+    }
+
+    .getlnk {
+      margin: 12px 4px 8px 4px;
+    }
+
     @media screen and (max-width: 640px) {
       body {
         font-size: 16px;
@@ -86,9 +107,12 @@
       .kcsll {
         width: 320px;
       }
+      .desc{
+        font-size: 12px;
+      }
       .kcurl {
         width: 85%;
-        margin: 8px;
+        margin: 8px 8px 4px 8px;
         font-size: 16px;
       }
     }
@@ -106,21 +130,26 @@
       本站支持 KerbCat 主站和 KC Dreve 的 (直观) 短网址制作。
     </p>
   </div>
+  <hr>
   <div>
     <input class="kcurl" type="url" name="kcurl" id="kcurl" placeholder="粘贴 KerbCat 网址" onkeydown="kcurlOnKeyDown();" onfocus="dontfail();">
   </div>
-  <div>
+  <div id='failind' class="failind inv">输入的网址格式有误</div>
+  <div class="getlnk">
     <a onclick="getShortLnk();">获取短网址</a>
   </div>
-<div class="desc">
-    <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+  <div class="desc">
+    <p>Hosted by
+      <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+    </p>
 
-</div>
+  </div>
   <script>
     var httpheader = /(http:\/\/|https:\/\/)?/i
     var traillingslash = /[\/\s]*$/i
     var kcregex = /www\.kerbcat\.com\/.*\/(?=\d+)/i;
     var dreveregex = /dreve\.kerbcat\.com\/s\//i;
+    var kcsl = 'http://kcsl.ink/'
 
     function kcurlOnKeyDown() {
       // TODO: 回车触发转换
@@ -132,27 +161,31 @@
       type = url.match(dreveregex) ? 2 : (url.match(kcregex) ? 1 : -1)
       switch (type) {
         case 1:
-          result = 'http://kcsl.ink/#p' + url.replace(kcregex, '');
+          result = '#p' + url.replace(kcregex, '');
           break;
         case 2:
-          result = 'http://kcsl.ink/#d' + url.replace(dreveregex, '');
+          result = '#d' + url.replace(dreveregex, '');
           break;
       }
       if (result) {
+        result = kcsl + result;
         kcurl.value = result;
         kcurl.focus();
         kcurl.select();
         // window.clipboardData.setData("Text", result);
       } else {
         kcurl.classList.add('fail')
+        failind.classList.remove('inv');
       }
     }
 
     function dontfail() {
       try { kcurl.classList.remove('fail') }
       catch (e) { }
+      try { failind.classList.add('inv') }
+      catch (e) { }
     }
-    
+
   </script>
 </body>
 
