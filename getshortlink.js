@@ -1,10 +1,12 @@
-var httpheader = /(http:\/\/|https:\/\/)?/i
-var traillingslash = /[\/\s]*$/i
+var httpheader = /(http:\/\/|https:\/\/)?/i;
+var traillingslash = /[\/\s]*$/i;
 var kcregex = /www\.kerbcat\.com\/.*\/(?=\d+)/i;
 var dreveregex = /dreve\.kerbcat\.com\/s\//i;
-var kcsl = 'http://ksc.moe/'
+var kcsl = "http://ksc.moe/";
 
 function kcsl(inurl) {
+  if ((inurl = "")) return "";
+
   url = inurl.replace(httpheader, "").replace(traillingslash, "");
   var result = null;
   type = url.match(dreveregex) ? 2 : url.match(kcregex) ? 1 : -1;
@@ -16,11 +18,11 @@ function kcsl(inurl) {
       result = "#d" + url.replace(dreveregex, "");
       break;
   }
-  if(result){
+  if (result) {
     result = kcsl + result;
     return result;
-  }else{
-    throw 'Not-A-Kerbcat-Website Exception';
+  } else {
+    throw "Not-A-Kerbcat-Website Exception";
     return -1;
   }
 }
