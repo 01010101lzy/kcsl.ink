@@ -8,7 +8,7 @@ var kcregex = /www\.kerbcat\.com\/.*\/(?=\d+)/i;
 var dreveregex = /dreve\.kerbcat\.com\/s\//i;
 
 var forumregex = /forum\.kerbalspaceprogram\.com\/index\.php\?\/topic\//i;
-var forumtrailling = /-[\w-]+/i;
+var forumtrailling = /-[\w-]+\/?/i;
 var forumcommentregex = /&do=findComment&comment=(?=\d+)/i;
 
 var kcsl = "http://ksc.moe/";
