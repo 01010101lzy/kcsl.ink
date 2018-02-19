@@ -172,10 +172,11 @@
       var result = null;
       try {
         result = kcsl(kcurl.value);
-      } catch(e){
-        fail();
-      } finally{
         kcurl.value = result;
+
+      } catch (e) {
+        fail();
+      } finally {
         kcurl.focus();
         kcurl.select();
       }
