@@ -58,6 +58,11 @@
         case 'd':
           url = `https://dreve.kerbcat.com/s/${tgt}`;
           break;
+        case 'f':
+          dot = tgt.indexOf('-');
+          if(dot == -1) url = `https://forum.kerbalspaceprogram.com/index.php?/topic/${tgt}-0`;
+          else url = `https://forum.kerbalspaceprogram.com/index.php?topic/${tgt.split('-')[0]}-0/&do=findComment&comment=${tgt.split('-')[1]}`;
+          break;
         default:
           url = `about.html`;
           break;

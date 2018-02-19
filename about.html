@@ -132,8 +132,7 @@
   </div>
   <hr>
   <div>
-    <input class="kcurl" type="url" name="kcurl" id="kcurl" placeholder="粘贴 KerbCat 网址" onkeypress="dontfail(); if(event.keyCode == 13 || event.which == 13) getShortLnk();"
-      onfocus="dontfail();">
+    <input class="kcurl" type="url" name="kcurl" id="kcurl" placeholder="粘贴 KerbCat 网址" onkeypress="dontfail(); if(event.keyCode == 13 || event.which == 13) getShortLnk();">
   </div>
   <div id='failind' class="failind inv">输入的网址格式有误</div>
   <div class="getlnk">
@@ -147,59 +146,20 @@
   </div>
   <script src="getshortlink.js"></script>
   <script>
-    var httpheader = /(http:\/\/|https:\/\/)?/i
-    var traillingslash = /[\/\s]*$/i
-    var kcregex = /www\.kerbcat\.com\/.*\/(?=\d+)/i;
-    var dreveregex = /dreve\.kerbcat\.com\/s\//i;
-    var kcsl = 'http://ksc.moe/'
-
-    // function kcurlOnKeyDown(e) {
-    //   // TODO: 回车触发转换
-    //   var keycode;
-    //   if (window.event) // IE
-    //   {
-    //     keynum = e.keyCode
-    //   }
-    //   else if (e.which) // Netscape/Firefox/Opera
-    //   {
-    //     keynum = e.which
-    //   }
-    //   if(keycode == 13) getShortLnk();
-    // }
-
+    
     function getShortLnk() {
       dontfail();
       var result = null;
       try {
-        result = kcsl(kcurl.value);
+        result = parsekcsl(kcurl.value);
         kcurl.value = result;
       } catch (e) {
+        console.log(e);
         fail();
       } finally {
         kcurl.focus();
         kcurl.select();
       }
-      // url = kcurl.value.replace(httpheader, '').replace(traillingslash, '');
-      // var result = null;
-      // type = url.match(dreveregex) ? 2 : (url.match(kcregex) ? 1 : -1)
-      // switch (type) {
-      //   case 1:
-      //     result = '#p' + url.replace(kcregex, '');
-      //     break;
-      //   case 2:
-      //     result = '#d' + url.replace(dreveregex, '');
-      //     break;
-      // }
-      // if (result) {
-      //   result = kcsl + result;
-      //   kcurl.value = result;
-      //   kcurl.focus();
-      //   kcurl.select();
-      //   // window.clipboardData.setData("Text", result);
-      // } else {
-      //   kcurl.classList.add('fail')
-      //   failind.classList.remove('inv');
-      // }
     }
 
     function fail() {
